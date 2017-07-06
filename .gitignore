@@ -7,3 +7,9 @@
 .idea/libraries/SBT__org_scala_lang_scala_library_2_12_1_jar.xml
 .idea/modules/geostation-build.iml
 .idea/modules/geostation.iml
+
+*.iml
+*.ipr
+*.iws
+.idea
+out
