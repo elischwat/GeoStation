@@ -9,7 +9,21 @@
 .idea/modules/geostation.iml
 
 *.iml
-*.ipr
-*.iws
 .idea
-out
+project/target/scala-2.10/
+project/target/streams/$global/$global/
+project/target/streams/$global/ivyConfiguration/
+project/target/streams/$global/ivySbt/
+project/target/streams/$global/projectDescriptors/
+project/target/streams/$global/updateSbtClassifiers/
+project/target/streams/compile/compile/
+project/target/streams/compile/incCompileSetup/
+target/streams/$global/$global/
+target/streams/$global/ivyConfiguration/
+target/streams/$global/ivySbt/
+target/streams/$global/projectDescriptors/
+target/streams/$global/updateClassifiers/
+project/target/streams/$global/update/$global/streams/out
+project/target/streams/compile/compileIncremental/$global/streams/out
+project/target/streams/compile/copyResources/$global/streams/out
+target/streams/$global/update/$global/streams/out
