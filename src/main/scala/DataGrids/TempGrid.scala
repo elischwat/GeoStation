@@ -5,21 +5,19 @@ package DataGrids
 
 import Utilities.Point
 
-class TempGrid extends DataGrid {
-
+class TempGrid(ulPP: Point, brPP: Point, nLatRowsP: Int, nLonColsP: Int, lonDimP: Double,
+               latDimP: Double, noDataP: Int, data_2DArrayP: Array[Array[Float]]) extends DataGrid {
 
     protected val dataType = "Temperature"  //immutable
     protected var unit     = "Celcius"      //default value
-    protected var ulP      = new Point(0.0, 0.0)
-    protected var brP      = new Point(0.0, 0.0)
-    protected var nLatRows = 0
-    protected var nLonCols = 0
-    protected var lonDim   = 0.0
-    protected var latDim   = 0.0
-    protected var noData   = -9999
-    protected var data_2DArray = Array.ofDim[Float](0,0)
-
-
+    protected var ulP      = ulPP
+    protected var brP      = brPP
+    protected var nLatRows = nLatRowsP
+    protected var nLonCols = nLonColsP
+    protected var lonDim   = lonDimP
+    protected var latDim   = latDimP
+    protected var  noData = noDataP
+    protected var data_2DArray = data_2DArrayP
 
 
 }
