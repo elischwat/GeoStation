@@ -5,7 +5,7 @@ package Utilities
 
 // Point
 // simple utility class for GeoStation to use
-class Point(val lonc: Double, val latc: Double) {
+class Point(val latc: Double, val lonc: Double) {
     var lon: Double = lonc
     var lat: Double = latc
 
@@ -13,4 +13,6 @@ class Point(val lonc: Double, val latc: Double) {
         lon = lon + dLon
         lat = lat + dLat
     }
+
+    override def toString: String = '(' + lat.toString + ',' + lon.toString + ')'
 }

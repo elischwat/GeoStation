@@ -21,7 +21,6 @@ object ScalaUtilities {
         dataStream.read(byteArray) // read data into byte array
         dataStream.close // close connection to file
         val intArray = JavaUtilities.intArrayFromByteArray(byteArray)
-
         var floatArray = Array.ofDim[Float](intArray.length)
         for (i <- 0 until floatArray.length) {
             floatArray(i) = parseAsLittleEndianFloat(intArray(i))
@@ -30,7 +29,17 @@ object ScalaUtilities {
     }
 
     def getMatrixFromArray(floatArr: Array[Float], nrowsP: Int, ncolsP: Int): Array[Array[Float]] = {
-
+        var dataMatrix = Array.ofDim[Float](nrowsP, ncolsP)
+        var cntr = 0
+        //outerloop iterates through rows
+        for (i <- 0 until nrowsP) {
+            //innerloop iterates through columns
+            for (j <- 0 until ncolsP) {
+                dataMatrix(i)(j) = floatArr(cntr)
+                cntr += 1
+            }
+        }
+        return dataMatrix
     }
 
     private def parseAsLittleEndianFloat(i: Int): Float = {

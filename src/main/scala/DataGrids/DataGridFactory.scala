@@ -42,8 +42,6 @@ object DataGridFactory {
 //    }
 
 
-
-
     // getTempGrid
     // Params: hdrPath - path to .hdr file
     //         bilPath - path to .bil file
@@ -64,8 +62,8 @@ object DataGridFactory {
         val noData   = GetVariableFromText("NODATA", hdrString).toInt
         val ulx = GetVariableFromText("ULXMAP", hdrString).toDouble
         val uly = GetVariableFromText("ULYMAP", hdrString).toDouble
-        val ulp = new Point(ulx.toDouble, uly.toDouble)
-        val brP = new Point(ulp.lon + (nLonCols * lonDim), ulp.lat + (nLatRows * latDim))
+        val ulp = new Point(uly.toDouble, ulx.toDouble)
+        val brP = new Point(ulp.lat + (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
 
         //FILL ARRAY FROM .BIL FILE
         val dataStream = new FileInputStream(bilPath.toFile)

@@ -7,8 +7,8 @@ import Utilities.Point
 
 class ElevGrid extends DataGrid {
 
-    protected var dataType = "Elevation"
     protected var unit     = ""
+    protected var detail   = ""
     protected var ulP      = new Point(0.0, 0.0)
     protected var brP      = new Point(0.0, 0.0)
     protected var nLatRows = 0
