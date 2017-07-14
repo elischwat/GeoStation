@@ -12,30 +12,41 @@ import Utilities.Point
 object TestDriver {
     def main(args: Array[String]): Unit = {
 
+        //create station
         var station = new GeoStation
+        //todo: test defualt GeoStation attributes
 
-        val hdrPath = Paths.get("src/test/test_data/sample_data.hdr")
+        //Test TempGrid:
+        println("Testing TempGrid:")
+        println("=================")
+        val hdrPath1 = Paths.get("src/test/test_data/sample_data.hdr")
         val bilPath = Paths.get("src/test/test_data/sample_data.bil")
-
-        val test = DataGridFactory.getTempGrid(hdrPath, bilPath)
-
-        station.addTempGrid("testTemp", test)
+        val testTempGrid = DataGridFactory.getTempGrid(hdrPath1, bilPath)
+        station.addTempGrid("testTemp", testTempGrid)
 
         val testPt = new Point(42.0, -94.0)
         val testPt2 = new Point(40.0, -92.0)
         val testPtAvg = new Point(41.573455, -93.620937)
-
-        val maxPt = test.maxData()
-
-        println(maxPt.toString)
-
         //TODO: Change tests to accomodate for receiving tuple
+        println("Point data: " + testTempGrid.pointData(testPt))
+        println("Point data: " + testTempGrid.pointData(testPt2))
+        println("Average data: " + testTempGrid.averageData(testPtAvg, testPt2))
+        println("Max data: Point: " + (testTempGrid.maxData))
+        println("Min data: " + testTempGrid.minData())
 
-        println("Point data: " + test.pointData(testPt))
-        println("Point data: " + test.pointData(testPt2))
-        println("Average data: " + test.averageData(testPtAvg, testPt2))
-//        println("Max data: Point: " + (test.maxData)
-//        println("Min data: " + test.minData())
-
+        //Test ElevGrid:
+        println("Testing ElevGrid:")
+        println("=================")
+        val hdrPath2 = Paths.get("src/test/test_data/elev_gridfloat_n39w076/usgs_ned_13_n39w076_gridfloat.hdr")
+        val fltPath = Paths.get("src/test/test_data/elev_gridfloat_n39w076/usgs_ned_13_n39w076_gridfloat.flt")
+        val testElevGrid = DataGridFactory.getElevGrid(hdrPath2, fltPath)
+        station.addElevGrid("testElev", testElevGrid)
+        val testPt3 = new Point(38.386625, -75.564854)
+        val testPt4 = new Point(38.52413, -75.43344)
+        val testPt5 = new Point(39.52413, -75.43344) //out of boundries
+        println("Point data: " + testElevGrid.pointData(testPt3))
+        println("Point data: " + testElevGrid.pointData(testPt4))
+        //should throw error:
+        println("Point data: " + testElevGrid.pointData(testPt5))
     }
 }

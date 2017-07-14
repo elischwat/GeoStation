@@ -37,6 +37,9 @@ class GeoStation() {
         elevations += (name -> newGrid)
     }
 
+    //HOW TO ITERATE OVER MAPS:
+    //- for ((k,v) <- myMap) doSomeMutherfkin(k) and shit(v) _with(kend v)
+
 
 }
 

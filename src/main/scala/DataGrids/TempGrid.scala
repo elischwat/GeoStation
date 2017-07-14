@@ -5,8 +5,9 @@ package DataGrids
 
 import Utilities.Point
 
-class TempGrid(ulPP: Point, brPP: Point, nLatRowsP: Int, nLonColsP: Int, lonDimP: Double,
-               latDimP: Double, noDataP: Int, data_2DArrayP: Array[Array[Float]]) extends DataGrid {
+class TempGrid(ulPP: Point, brPP: Point, nLatRowsP: Int, nLonColsP: Int,
+               lonDimP: Double, latDimP: Double, noDataP: Int, data_2DArrayP:
+               Array[Array[Float]]) extends DataGrid {
 
     protected var unit     = "Celcius"      //default value
     protected var detail   = ""            //default value

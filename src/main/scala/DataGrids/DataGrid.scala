@@ -7,6 +7,8 @@ import Utilities.Point
 
 trait DataGrid {
 
+    //TODO: all data accessors must check if request is within bounds
+
     // data fields for all DataGrids
     protected var unit: String
     protected var detail: String
@@ -36,6 +38,9 @@ trait DataGrid {
 
     //Data Accessor Methods
     def pointData(point: Point): Option[Float] = {
+        //TODO:remove this and make the functionality better
+        if (!pointIsInBounds(point)) println("BULLSHIT")
+
         val colNum = Math.floor((point.lon - ulP.lon) / lonDim).toInt
         val rowNum = Math.floor((ulP.lat - point.lat) / latDim).toInt
         if (this.data_2DArray(rowNum)(colNum) == -9999) {
@@ -76,6 +81,7 @@ trait DataGrid {
     def maxData(): Option[Tuple2[Point, Float]] = {
         var max = this.data_2DArray(0)(0)
         var maxPt = new Point(0.0, 0.0)
+        //TODO: this could become prohibitively slow - better way to find max pt?
         //outerloop iterates through rows
         for (i <- 0 until this.nLatRows) {
             //innerloop iterates through columns
@@ -120,6 +126,12 @@ trait DataGrid {
         else {
             return Some((minPt, min))
         }
+    }
+
+    //TODO: Implement pointInBounds
+    private def pointIsInBounds(pnt: Point): Boolean = {
+        return pnt.lon > this.ulP.lon && pnt.lat < ulP.lat &&
+          pnt.lon < this.brP.lon && pnt.lat > brP.lat
     }
 
 }
