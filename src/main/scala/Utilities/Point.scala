@@ -9,7 +9,7 @@ class Point(val latc: Double, val lonc: Double) {
     var lon: Double = lonc
     var lat: Double = latc
 
-    def move(dLon: Double, dLat: Double) {
+    def move(dLat: Double, dLon: Double) {
         lon = lon + dLon
         lat = lat + dLat
     }

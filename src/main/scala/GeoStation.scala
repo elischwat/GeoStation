@@ -23,6 +23,21 @@ class GeoStation() {
     var precipitations = Map[String, PrecipGrid]()
     var elevations = Map[String, ElevGrid]()
 
+    //get temperatures list of grids
+    def listTemperatures: String = {
+        temperatures.keySet.toString()
+    }
+
+    //get precipitations list of grids
+    def listPrecipitations: String = {
+        precipitations.keySet.toString()
+    }
+
+    //get elevations list of grids
+    def listElevations: String = {
+        elevations.keySet.toString()
+    }
+
     //addTempGrid
     //Param: newDataGrid - is added to appropriate private var based on type
     def addTempGrid(name: String, newGrid: TempGrid) {

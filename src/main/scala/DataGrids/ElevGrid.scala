@@ -18,6 +18,6 @@ class ElevGrid(ulPP: Point, brPP: Point, nLatRowsP: Int, nLonColsP: Int,
     protected var lonDim   = lonDimP
     protected var latDim   = latDimP
     protected var noData   = noDataP
-    protected var data_2DArray = data_2DArrayP
+    data_2DArray = data_2DArrayP
 
 }

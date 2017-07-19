@@ -19,7 +19,8 @@ trait DataGrid {
     protected var lonDim: Double
     protected var latDim: Double
     protected var noData: Int
-    protected var data_2DArray: Array[Array[Float]]
+    protected var data_2DArray = Array.ofDim[Float](0,0)
+
 
     //Object Accessor Methods
     def getunit: String = this.unit
@@ -37,10 +38,28 @@ trait DataGrid {
     def setdetail(detailP: String) { this.detail = detailP}
 
     //Data Accessor Methods
-    def pointData(point: Point): Option[Float] = {
-        //TODO:remove this and make the functionality better
-        if (!pointIsInBounds(point)) println("BULLSHIT")
 
+    def apply(lat: Double, lon: Double): Option[Float] = {
+        if (!pointIsInBounds(new Point(lat, lon))) return None
+        else {
+            val colNum = Math.floor((lon - ulP.lon) / lonDim).toInt
+            val rowNum = Math.floor((ulP.lat - lat) / latDim).toInt
+            return Some(data_2DArray(rowNum)(colNum))
+        }
+    }
+
+    def apply(pnt: Point): Option[Float]  = {
+        if (!pointIsInBounds(pnt)) return None
+        else {
+            val colNum = Math.floor((pnt.lon - ulP.lon) / lonDim).toInt
+            val rowNum = Math.floor((ulP.lat - pnt.lat) / latDim).toInt
+            return Some(data_2DArray(rowNum)(colNum))
+        }
+    }
+
+    //deprecated -- access data directly and may throw exception
+    private def pointData(point: Point): Option[Float] = {
+        //TODO:remove this and make the functionality better
         val colNum = Math.floor((point.lon - ulP.lon) / lonDim).toInt
         val rowNum = Math.floor((ulP.lat - point.lat) / latDim).toInt
         if (this.data_2DArray(rowNum)(colNum) == -9999) {
@@ -50,6 +69,7 @@ trait DataGrid {
         }
     }
 
+    //TODO: fix to handle edge cases better:
     def averageData(local: Point, local2: Point): Option[Float] = {
         //if 2 points are same, reuse other function
         if(local.lat == local2.lat && local.lon == local2.lon) {
@@ -78,9 +98,9 @@ trait DataGrid {
     }
 
     //TODO: RETURN TUPLE2 of Point and Float - point must be adjusted from (i)(j) to (lat)(long)
-    def maxData(): Option[Tuple2[Point, Float]] = {
+    def maxData(): Tuple2[Point, Float] = {
         var max = this.data_2DArray(0)(0)
-        var maxPt = new Point(0.0, 0.0)
+        var maxPt = new Point(0, 0)
         //TODO: this could become prohibitively slow - better way to find max pt?
         //outerloop iterates through rows
         for (i <- 0 until this.nLatRows) {
@@ -93,42 +113,30 @@ trait DataGrid {
                 }
             }
         }
-        if (max == this.noData) {
-            return None
-        }
-        else {
-            return Some((maxPt, max))
-        }
-
-
-
+        return (maxPt, max)
     }
 
     //TODO: RETURN TUPLE2 of Point and Float - point must be adjusted from (i)(j) to (lat)(long)
-    def minData(): Option[Tuple2[Point, Float]] = {
-        var min = this.data_2DArray(0)(0)
-        var minPt = new Point(0.0, 0.0)
-
+    def minData(): Tuple2[Point, Float] = {
+        var min = this.maxData()._2
+        // if max=noData then min will also equal noData
+        if (min == this.noData) return (new Point(0,0), this.noData.toFloat)
+        var minPt = new Point(0, 0)
         //outerloop iterates through rows
         for (i <- 0 until this.nLatRows) {
             //innerloop iterates through columns
             for (j <- 0 until nLonCols) {
-                if (min > this.data_2DArray(i)(j) && this.data_2DArray(i)(j) != this.noData) {
+                if (min > this.data_2DArray(i)(j) && (this.data_2DArray(i)(j) != this.noData)) {
                     min = this.data_2DArray(i)(j)
                     minPt.lat = i
                     minPt.lon = j
                 }
             }
         }
-        if (min == -9999) {
-            return None
-        }
-        else {
-            return Some((minPt, min))
-        }
+        return (minPt, min)
     }
 
-    //TODO: Implement pointInBounds
+    //HELPER FUCNTION
     private def pointIsInBounds(pnt: Point): Boolean = {
         return pnt.lon > this.ulP.lon && pnt.lat < ulP.lat &&
           pnt.lon < this.brP.lon && pnt.lat > brP.lat

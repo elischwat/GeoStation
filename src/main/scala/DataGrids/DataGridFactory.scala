@@ -33,13 +33,13 @@ object DataGridFactory {
 //
 //    }
 
-    // getElevGrid
-    // Params: hdrPath - path to .hdr file
-    // Params: fltPath - path to .flt file
-    // creates ElevGrid with __ with .hdr/.flt file pair of the GridFloat file format
-    // Uses to ElevGrid default constructor
-    // *.flt file can be read the same as a .bil, interpret as a stream of 32bit Floats, little-
-    //      endian
+    /** getElevGrid
+      * Params: hdrPath - path to .hdr file
+      * Params: fltPath - path to .flt file
+      * creates ElevGrid with __, with __, with .hdr/.flt file pair of the GridFloat file format
+      * Uses to ElevGrid default constructor
+      * .flt file can be read the same as a .bil, interpret as a stream of 32bit Floats, little-endian
+      */
     def getElevGrid(hdrPath: Path, fltPath: Path): ElevGrid = {
 
         val hdrString = Source.fromFile(hdrPath.toString).mkString
@@ -47,10 +47,10 @@ object DataGridFactory {
         //parsing commands specific to .hdr file for GridFloat file format
         val nLatRows = GetVariableFromText("nrows", hdrString).toInt
         val nLonCols = GetVariableFromText("ncols", hdrString).toInt
-        val llx = GetVariableFromText("xllcorner", hdrString).toDouble
-        val lly = GetVariableFromText("yllcorner", hdrString).toDouble
-        //debug: toDouble may not work b/c hdr contains textual  scientific notation:
-        val cellSize = GetVariableFromText("cellsize", hdrString).toDouble
+        val llx = GetVariableFromText("xllcorner", hdrString).toFloat
+        val lly = GetVariableFromText("yllcorner", hdrString).toFloat
+        //debug: toFloat may not work b/c hdr contains textual  scientific notation:
+        val cellSize = GetVariableFromText("cellsize", hdrString).toFloat
         val lonDim   = cellSize
         val latDim = cellSize
         val noData   = GetVariableFromText("NODATA_value", hdrString).toInt
@@ -59,8 +59,8 @@ object DataGridFactory {
         //debug: check if this math is right
         val uly = lly + (cellSize * nLatRows)
 
-        val ulp = new Point(uly.toDouble, ulx.toDouble)
-        val brP = new Point(ulp.lat + (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
+        val ulp = new Point(uly.toFloat, ulx.toFloat)
+        val brP = new Point(ulp.lat - (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
 
         //FILL ARRAY FROM .BIL FILE
         val dataStream = new FileInputStream(fltPath.toFile)
@@ -79,7 +79,7 @@ object DataGridFactory {
     //         bilPath - path to .bil file
     // creates temp grid with .hdr/.bil pair
     // Uses TempGrid default contructor TempGrid(ulPP: Point, brPP: Point, nLatRowsP: Int, nLonColsP:
-    //      Int, lonDimP: Double, latDimP: Double, noDataP: Int, data_2DArrayP: Array[Array[Float]])
+    //      Int, lonDimP: Float, latDimP: Float, noDataP: Int, data_2DArrayP: Array[Array[Float]])
     def getTempGrid(hdrPath: Path, bilPath: Path): TempGrid = {
 
         //  hdrString = String containing entirety of file @ hdrPath
@@ -95,8 +95,7 @@ object DataGridFactory {
         val ulx = GetVariableFromText("ULXMAP", hdrString).toDouble
         val uly = GetVariableFromText("ULYMAP", hdrString).toDouble
         val ulp = new Point(uly.toDouble, ulx.toDouble)
-        val brP = new Point(ulp.lat + (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
-
+        val brP = new Point(ulp.lat - (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
         //FILL ARRAY FROM .BIL FILE
         val dataStream = new FileInputStream(bilPath.toFile)
         val floatArray = ScalaUtilities.getFloatArrayFromDataStream(dataStream)
