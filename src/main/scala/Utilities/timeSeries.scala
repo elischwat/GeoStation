@@ -3,10 +3,13 @@ package Utilities
 /**
   * Created by elischwat on 7/19/17.
   */
-class timeSeries {
+class TimeSeries {
 
+    protected var name: String = ""
+    protected var detail: String = ""
+    protected var timeUnit: String = ""
+    protected var valueUnit: String = ""
     protected var step: Int = 0//seconds
-    protected var time: Seq[Array[Array[Float]]] = Seq.s
-
+    protected var time: Seq[Array[Array[Float]]] = Seq.empty
 
 }

@@ -59,8 +59,8 @@ object DataGridFactory {
         //debug: check if this math is right
         val uly = lly + (cellSize * nLatRows)
 
-        val ulp = new Point(uly.toFloat, ulx.toFloat)
-        val brP = new Point(ulp.lat - (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
+        val ulp = Point(uly.toFloat, ulx.toFloat)
+        val brP = Point(ulp.lat - (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
 
         //FILL ARRAY FROM .BIL FILE
         val dataStream = new FileInputStream(fltPath.toFile)
@@ -109,14 +109,15 @@ object DataGridFactory {
     }
 
 
-
-
-
-
-    //HELPER FUNCTIONS
-    //getNumFromVarName
-    //gets the value from a text line containing both var name and value
-    //returns String - leaves data typing to the caller
+    /**getNumFromVarName
+      * gets the value from a text line containing both var name and value
+      * Regex pattern relies upon the fact that there are two tokens on the line,
+      * the first token is composed of letters and the two tokens are not equal
+      * returns String - leaves data typing to the caller
+      * @param varName -
+      * @param txt -
+      * @return value -
+      */
     def GetVariableFromText(varName: String, txt: String): String = {
         val pattern_grab_line = ("""(?<=""" + varName + """).*(?=\s)""").r //gets line w/ "varName"
         val pattern_grab_num = """[^\s]+""".r             //grabs number from that line

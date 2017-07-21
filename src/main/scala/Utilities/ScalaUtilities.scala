@@ -1,14 +1,8 @@
 package Utilities
 
-import java.nio.file.Path
-import java.nio.file.Path
-import java.nio.file.Files
-import java.nio.file.Paths
+
 import java.nio.ByteBuffer
 import java.io.FileInputStream
-import scala.io.{BufferedSource, Source}
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by elischwat on 7/6/17.

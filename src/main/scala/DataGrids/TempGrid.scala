@@ -17,7 +17,7 @@ class TempGrid(ulPP: Point, brPP: Point, nLatRowsP: Int, nLonColsP: Int,
     protected var nLonCols = nLonColsP
     protected var lonDim   = lonDimP
     protected var latDim   = latDimP
-    protected var noData = noDataP
+    noData = noDataP
     data_2DArray = data_2DArrayP
 
 

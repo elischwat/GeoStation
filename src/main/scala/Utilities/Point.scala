@@ -5,7 +5,7 @@ package Utilities
 
 // Point
 // simple utility class for GeoStation to use
-class Point(val latc: Double, val lonc: Double) {
+case class Point(latc: Double,lonc: Double) {
     var lon: Double = lonc
     var lat: Double = latc
 

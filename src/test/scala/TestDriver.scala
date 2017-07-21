@@ -24,9 +24,9 @@ object TestDriver {
         station.addTempGrid("testTemp", testTempGrid)
         println(station.listTemperatures)
 
-        val testPt = new Point(42.0, -94.0)
-        val testPt2 = new Point(40.0, -92.0)
-        val testPtAvg = new Point(41.573455, -93.620937)
+        val testPt = Point(42.0, -94.0)
+        val testPt2 = Point(40.0, -92.0)
+        val testPtAvg = Point(41.573455, -93.620937)
         //TODO: Change tests to accomodate for receiving tuple
         println("Point data: " + testTempGrid(testPt))
         println("Point data: " + testTempGrid(testPt2))
@@ -43,9 +43,11 @@ object TestDriver {
         station.addElevGrid("testElev", testElevGrid)
         println(station.listElevations)
 
-        val testPt3 = new Point(38.386625, -75.564854)
-        val testPt4 = new Point(38.52413, -75.43344)
-        val testPt5 = new Point(39.52413, -75.43344) //out of boundries
+
+        println("NoData should return None" + Point)
+        val testPt3 = Point(38.386625, -75.564854)
+        val testPt4 = Point(38.52413, -75.43344)
+        val testPt5 = Point(39.52413, -75.43344) //out of boundries
         println("Point data: " + testElevGrid(testPt3))
         println("Point data: " + testElevGrid(testPt4))
         println("Max data: Point: " + (testElevGrid.maxData))

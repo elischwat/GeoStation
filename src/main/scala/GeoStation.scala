@@ -5,7 +5,8 @@ package GeoStation
 
 import DataGrids.{DataGrid, ElevGrid, PrecipGrid, TempGrid}
 import Utilities.Point
-import scala.collection.mutable.Map
+
+import scala.reflect.io.Path
 
 object GeoStation {
 
@@ -13,47 +14,49 @@ object GeoStation {
 
 class GeoStation() {
 
-    //make data fields private
-    //make climate station
-    val ulP: Point = new Point(0.0, 0.0)//upper left point
-    val brP: Point = new Point(0.0, 0.0)//bottom right point
+    var dataPath: Path = "data/"    //default path
 
-    //Maps of DataGrids defined by Keys (Names)
-    var temperatures = Map[String, TempGrid]()
-    var precipitations = Map[String, PrecipGrid]()
-    var elevations = Map[String, ElevGrid]()
 
+
+
+    //ACCESOR METHODS
+    ////////////////////////////////////////////////////////////////////////////
     //get temperatures list of grids
-    def listTemperatures: String = {
-        temperatures.keySet.toString()
-    }
+//    def listTemperatures: String = temperatures.keySet.toString()
+//
+//    def listPrecipitations: String = precipitations.keySet.toString()
+//
+//    def listElevations: String = elevations.keySet.toString()
 
-    //get precipitations list of grids
-    def listPrecipitations: String = {
-        precipitations.keySet.toString()
-    }
+//    def getTemp(pnt: Point): Float = {
+//
+//    }
+//
+//    def getTemp(lat: Double, lon: Double): Float = {
+//
+//    }
+//
+//    def getPrecip(pnt: Point): Float = {
+//
+//    }
+//
+//    def getPrecip(lat: Double, lon: Double): Float = {
+//
+//    }
+//
+//    def getElev(pnt: Point): Float = {
+//
+//    }
+//
+//    def getElev(lat: Double, lon: Double): Float = {
+//
+//    }
 
-    //get elevations list of grids
-    def listElevations: String = {
-        elevations.keySet.toString()
-    }
 
-    //addTempGrid
-    //Param: newDataGrid - is added to appropriate private var based on type
-    def addTempGrid(name: String, newGrid: TempGrid) {
-        temperatures += (name -> newGrid)
-    }
 
-    def addPrecipGrid(name: String, newGrid: PrecipGrid) : Unit = {
-        precipitations += (name -> newGrid)
-    }
 
-    def addElevGrid(name: String, newGrid: ElevGrid): Unit = {
-        elevations += (name -> newGrid)
-    }
-
-    //HOW TO ITERATE OVER MAPS:
-    //- for ((k,v) <- myMap) doSomeMutherfkin(k) and shit(v) _with(kend v)
+    //MUTATOR METHODS
+    ////////////////////////////////////////////////////////////////////////////
 
 
 }
