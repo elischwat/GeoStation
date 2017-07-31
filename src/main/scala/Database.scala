@@ -1,4 +1,6 @@
-import DataGrids.DataGrid
+import DataGrids.{DataGrid, TempGrid, PrecipGrid, ElevGrid}
+
+import scala.collection.mutable.ListBuffer
 //import java.nio.file.Files
 import Utilities.Point
 
@@ -24,41 +26,106 @@ class Database {
 
     //TODO: MUST rethick organizing by map -- getTemp functions r overly complicated
     //Maps of DataGrids defined by Keys (Names)
-    var temperatures = Map[String, DataGrid]()
-    var precipitations = Map[String, DataGrid]()
-    var elevations = Map[String, DataGrid]()
+    var temperatures = ListBuffer[TempGrid]()
+    var precipitations = ListBuffer[PrecipGrid]()
+    var elevations = ListBuffer[ElevGrid]()
+
+    var tempGrids = ListBuffer[String]()
+    var precipGrids = ListBuffer[String]()
+    var elevGrids = ListBuffer[String]()
 
 
+    /**
+      * list temperatures in an ordered manner, the primary data grid first
+      */
+    def listTempGrids: Unit = {
+        temperatures foreach {grid => println(grid.getDetail)}
+    }
+
+    /**
+      * list precipitations in an ordered manner, the primary data grid first
+      */
+    def listPrecipGrids: Unit = {
+        precipitations foreach {grid => println(grid.getDetail)}
+    }
+
+    /**
+      * list elevations in an ordered manner, the primary data grid first
+      */
+    def listElevGrids: Unit = {
+        elevations foreach {grid => println(grid.getDetail)}
+    }
+
+    /**
+      * Returns temperature at the primary temp grid (temperatures[0])
+      * @param pnt
+      * @return
+      */
     def getTemp(pnt: Point): Option[Float] = {
-        var x: Float = 0
-        var net: Float = 0
-
-        for (i <- temperatures.values) {
-            val temp = i.pointData(pnt)
-            temp match {
-                case None =>
-                case Some[Float] => net += temp
-        }
-
+        if (temperatures.size  == 0) return None
+        temperatures(0).pointData(pnt)
     }
 
-    def getPrecip(point: Point): Option[Float] = {
-
+    /**
+      * Returns precipitation at the primary precip grid (precipitations[0])
+      * @param pnt
+      * @return
+      */
+    def getPrecip(pnt: Point): Option[Float] = {
+        if (precipitations.size == 0) return None
+        precipitations(0).pointData(pnt)
     }
 
-    def getElev(local: Point, local2: Point): Option[Float] = {
-
+    /**
+      * Returns elevation at the primary elev grid (elevations[0])
+      * @param pnt
+      * @return
+      */
+    def getElev(pnt: Point): Option[Float] = {
+        if (elevations.size == 0) return None
+        elevations(0).pointData(pnt)
     }
 
+    def getAvgTemp(pnt: Point): Option[Float] = {
+        //TODO: FIGURE OUT ALGORITHM!!
+        None
+    }
+
+    def getAvgPrecip(pnt: Point): Option[Float] = {
+        //TODO: FIGURE OUT ALGORITHM!!
+        None
+    }
+
+    def getAvgElev(pnt: Point): Option[Float] = {
+        //TODO: FIGURE OUT ALGORITHM!!
+        None
+    }
+
+
+    /**
+      * Returns max temp from the primary temp grid (temperatures[0])
+      * @return Option of Tuple2 containing Point and Value of max temp
+      */
     def maxTemp(): Option[(Point, Float)] = {
-
+        if (temperatures.size  == 0) return None
+        temperatures(0).maxData()
     }
 
+    /**
+      * Returns max precip from the primary precip grid (precipitations[0])
+      * @return Option of Tuple2 containing Point and Value of max precip
+      */
     def maxPrecip(): Option[(Point, Float)] = {
-
+        if (precipitations.size  == 0) return None
+        precipitations(0).maxData()
     }
 
+    /**
+      * Returns max elev from the primary elev grid (elevations[0])
+      * @return Option of Tuple2 containing Point and Value of max elev
+      */
     def maxElev(): Option[(Point, Float)] = {
-
+        if (elevations.size  == 0) return None
+        elevations(0).maxData()
     }
 }

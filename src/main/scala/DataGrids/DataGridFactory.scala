@@ -29,9 +29,32 @@ object DataGridFactory {
     // Params:
     //
     // creates __ with __
-//    def getPrecipGrid: PrecipGrid = {
-//
-//    }
+    def getPrecipGrid(hdrPath: Path, bilPath: Path): PrecipGrid = {
+
+        //  hdrString = String containing entirety of file @ hdrPath
+        val hdrString = Source.fromFile(hdrPath.toString).mkString //get entire hdr file into 1 string
+        //FILL VARS FROM .HDR FILE
+        //parsing commands specific to .hdr file
+        //FUTURE: map data from text into flexible variable names for tempGrid
+        val nLatRows = GetVariableFromText("NROWS", hdrString).toInt
+        val nLonCols = GetVariableFromText("NCOLS", hdrString).toInt
+        val lonDim   = GetVariableFromText("XDIM", hdrString).toDouble
+        val latDim = GetVariableFromText("YDIM", hdrString).toDouble
+        val noData   = GetVariableFromText("NODATA", hdrString).toInt
+        val ulx = GetVariableFromText("ULXMAP", hdrString).toDouble
+        val uly = GetVariableFromText("ULYMAP", hdrString).toDouble
+        val ulp = new Point(uly.toDouble, ulx.toDouble)
+        val brP = new Point(ulp.lat - (nLatRows * latDim), ulp.lon + (nLonCols * lonDim))
+        //FILL ARRAY FROM .BIL FILE
+        val dataStream = new FileInputStream(bilPath.toFile)
+        val floatArray = ScalaUtilities.getFloatArrayFromDataStream(dataStream)
+        val precipMatrix = ScalaUtilities.getMatrixFromArray(floatArray, nLatRows, nLonCols)
+
+        //create and return generated TempGrid
+        val toReturn = new PrecipGrid(ulp, brP, nLatRows, nLonCols, lonDim,
+            latDim, noData, precipMatrix)
+        return toReturn
+    }
 
     /** getElevGrid
       * Params: hdrPath - path to .hdr file

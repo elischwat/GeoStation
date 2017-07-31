@@ -9,15 +9,15 @@ class PrecipGrid(ulPP: Point, brPP: Point, nLatRowsP: Int, nLonColsP: Int,
                  lonDimP: Double, latDimP: Double, noDataP: Int, data_2DArrayP:
                  Array[Array[Float]]) extends DataGrid {
 
-    protected var unit     = ""
+    protected var unit     = "mm"
     protected var detail   = ""
-    protected var ulP      = new Point(0,0)
-    protected var brP      = new Point(0, 0)
-    protected var nLatRows = 0
-    protected var nLonCols = 0
-    protected var lonDim   = 0
-    protected var latDim   = 0
+    protected var ulP      = ulPP
+    protected var brP      = brPP
+    protected var nLatRows = nLatRowsP
+    protected var nLonCols = nLonColsP
+    protected var lonDim   = lonDimP
+    protected var latDim   = latDimP
     noData  = noDataP
-    data_2DArray = Array.ofDim[Float](0,0)
+    data_2DArray = data_2DArrayP
 
 }

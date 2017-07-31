@@ -1,5 +1,5 @@
 /**
- * Created by elischwat on 7/6/17.
+ * Created by Eli Schwat on 7/6/17.
  */
 package DataGrids
 
@@ -23,15 +23,15 @@ trait DataGrid {
 
 
     //Object Accessor Methods
-    def getunit: String = this.unit
-    def getdetail: String = this.detail
-    def getulP: Point = this.ulP
-    def getbrP: Point = this.brP
-    def getnLatRows: Int = this.nLatRows
-    def getnLonCols: Int = this.nLonCols
-    def getlonDim: Double = this.lonDim
-    def getlatDim: Double = this.latDim
-    def getnoData: Int = this.noData
+    def getUnit: String = this.unit
+    def getDetail: String = this.detail
+    def getUlp: Point = this.ulP
+    def getBrp: Point = this.brP
+    def getNLatRows: Int = this.nLatRows
+    def getNLonCols: Int = this.nLonCols
+    def getLonDim: Double = this.lonDim
+    def getLatDim: Double = this.latDim
+    def getNoData: Int = this.noData
 
     //Object Mutator Methods
     def setunit(unitP: String) { this.unit = unitP}
@@ -58,10 +58,10 @@ trait DataGrid {
         //TODO:remove this and make the functionality better
         val colNum = Math.floor((point.lon - ulP.lon) / lonDim).toInt
         val rowNum = Math.floor((ulP.lat - point.lat) / latDim).toInt
-        val target = this.noData
+        val noDataMatch = this.noData
         this.data_2DArray(rowNum)(colNum) match {
-            case target => None
-            case _ => Some( this.data_2DArray(rowNum)(colNum))
+            case noDataMatch => None
+            case _ => Some(this.data_2DArray(rowNum)(colNum))
         }
     }
 

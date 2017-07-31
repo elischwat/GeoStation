@@ -36,24 +36,26 @@ object DatabaseFactory {
             if (file.toString.endsWith(".bil") && hdrFile.exists()) {
                 val str = hdrFile.toString
                 val name = str.substring(str.lastIndexOf("/")+1, str.lastIndexOf("."))
-                database.temperatures += (name ->
-                  DataGridFactory.getTempGrid(hdrFile.toPath, file.toPath))
+                database.temperatures += DataGridFactory.getTempGrid(hdrFile.toPath, file.toPath)
             }
         }
     }
 
     def buildPrecipitations(dataPath: Path, database: Database): Unit = {
-        //        var fileList = getListOfFiles(dataPath.toString + "precipitations")
-        //        for (file <- fileList) {
-        //            val name = file.toString.substring(0, file.toString.length - 4)
-        //            val hdrFile = Paths.get(name + ".hdr").toFile
-        //            if (file.toString.endsWith(".flt") && hdrFile.exists()) {
-        //                val str = hdrFile.toString
-        //                val name = str.substring(str.lastIndexOf("/")+1, str.lastIndexOf("."))
-        //                database.precipitations += (name ->
-        //                  DataGridFactory.getPrecipGrid(hdrFile.toPath, file.toPath))
-        //            }
-        //        }
+        var fileList = List[File]()
+        dataPath.toString takeRight 1 match {
+            case "/" => { fileList = getListOfFiles(dataPath.toString + "precipitations") }
+            case _   => { fileList = getListOfFiles(dataPath.toString + "/precipitations") }
+        }
+        for (file <- fileList) {
+            val name = file.toString.substring(0, file.toString.length - 4)
+            val hdrFile = Paths.get(name + ".hdr").toFile
+            if (file.toString.endsWith(".flt") && hdrFile.exists()) {
+                val str = hdrFile.toString
+                val name = str.substring(str.lastIndexOf("/")+1, str.lastIndexOf("."))
+                database.precipitations += DataGridFactory.getPrecipGrid(hdrFile.toPath, file.toPath)
+            }
+        }
     }
 
     def buildElevations(dataPath: Path, database: Database): Unit = {
@@ -64,8 +66,7 @@ object DatabaseFactory {
             if (file.toString.endsWith(".flt") && hdrFile.exists()) {
                 val str = hdrFile.toString
                 val name = str.substring(str.lastIndexOf("/")+1, str.lastIndexOf("."))
-                database.elevations += (name ->
-                  DataGridFactory.getElevGrid(hdrFile.toPath, file.toPath))
+                database.elevations += DataGridFactory.getElevGrid(hdrFile.toPath, file.toPath)
             }
         }
     }
