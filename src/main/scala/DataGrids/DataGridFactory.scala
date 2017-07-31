@@ -53,6 +53,8 @@ object DataGridFactory {
         //create and return generated TempGrid
         val toReturn = new PrecipGrid(ulp, brP, nLatRows, nLonCols, lonDim,
             latDim, noData, precipMatrix)
+        toReturn.setdetail(bilPath.toString.substring(bilPath.toString.lastIndexOf('/') + 1,
+            bilPath.toString.lastIndexOf('.')))
         return toReturn
     }
 
@@ -93,6 +95,8 @@ object DataGridFactory {
         //create and return generated TempGrid
         val toReturn = new ElevGrid(ulp, brP, nLatRows, nLonCols, lonDim,
             latDim, noData, tempMatrix)
+        toReturn.setdetail(fltPath.toString.substring(fltPath.toString.lastIndexOf('/') + 1,
+            fltPath.toString.lastIndexOf('.')))
         return toReturn
     }
 
@@ -127,6 +131,8 @@ object DataGridFactory {
         //create and return generated TempGrid
         val toReturn = new TempGrid(ulp, brP, nLatRows, nLonCols, lonDim,
             latDim, noData, tempMatrix)
+        toReturn.setdetail(bilPath.toString.substring(bilPath.toString.lastIndexOf('/') + 1,
+            bilPath.toString.lastIndexOf('.')))
         return toReturn
 
     }

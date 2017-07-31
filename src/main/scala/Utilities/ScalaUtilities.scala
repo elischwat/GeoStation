@@ -2,12 +2,21 @@ package Utilities
 
 
 import java.nio.ByteBuffer
-import java.io.FileInputStream
+import java.io.{File, FileInputStream}
 
 /**
   * Created by elischwat on 7/6/17.
   */
 object ScalaUtilities {
+
+    def getListOfFiles(dir: String):List[File] = {
+        val d = new File(dir)
+        if (d.exists && d.isDirectory) {
+            d.listFiles.filter(_.isFile).toList
+        } else {
+            List[File]()
+        }
+    }
 
     def getFloatArrayFromDataStream(dataStream: FileInputStream): Array[Float] = {
         val byteCount = dataStream.available //get # bytes in file

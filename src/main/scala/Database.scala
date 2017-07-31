@@ -1,5 +1,5 @@
+package GeoStation
 import DataGrids.{DataGrid, TempGrid, PrecipGrid, ElevGrid}
-
 import scala.collection.mutable.ListBuffer
 //import java.nio.file.Files
 import Utilities.Point

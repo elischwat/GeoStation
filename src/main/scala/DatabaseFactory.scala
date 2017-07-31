@@ -1,7 +1,8 @@
+package GeoStation
 import java.io.File
 import java.nio.file.{Path, Paths}
-
 import DataGrids.DataGridFactory
+import Utilities.ScalaUtilities
 
 /**
   * Created by elischwat on 7/20/17.
@@ -29,14 +30,20 @@ object DatabaseFactory {
     }
 
     def buildTemperatures(dataPath: Path, database: Database): Unit = {
-        var fileList = getListOfFiles(dataPath.toString + "temperatures")
+        var fileList = List[File]()
+        dataPath.toString takeRight 1 match {
+            case "/" => { fileList = ScalaUtilities.getListOfFiles(dataPath.toString + "temperatures")}
+            case _   => { fileList = ScalaUtilities.getListOfFiles(dataPath.toString + "/temperatures")}
+        }
         for (file <- fileList) {
             val name = file.toString.substring(0, file.toString.length - 4)
             val hdrFile = Paths.get(name + ".hdr").toFile
             if (file.toString.endsWith(".bil") && hdrFile.exists()) {
                 val str = hdrFile.toString
                 val name = str.substring(str.lastIndexOf("/")+1, str.lastIndexOf("."))
-                database.temperatures += DataGridFactory.getTempGrid(hdrFile.toPath, file.toPath)
+                val tmp = DataGridFactory.getTempGrid(hdrFile.toPath, file.toPath)
+                database.temperatures += tmp
+                database.tempGrids += tmp.getDetail
             }
         }
     }
@@ -44,39 +51,38 @@ object DatabaseFactory {
     def buildPrecipitations(dataPath: Path, database: Database): Unit = {
         var fileList = List[File]()
         dataPath.toString takeRight 1 match {
-            case "/" => { fileList = getListOfFiles(dataPath.toString + "precipitations") }
-            case _   => { fileList = getListOfFiles(dataPath.toString + "/precipitations") }
+            case "/" => { fileList = ScalaUtilities.getListOfFiles(dataPath.toString + "precipitations") }
+            case _   => { fileList = ScalaUtilities.getListOfFiles(dataPath.toString + "/precipitations") }
         }
         for (file <- fileList) {
             val name = file.toString.substring(0, file.toString.length - 4)
             val hdrFile = Paths.get(name + ".hdr").toFile
-            if (file.toString.endsWith(".flt") && hdrFile.exists()) {
+            if (file.toString.endsWith(".bil") && hdrFile.exists()) {
                 val str = hdrFile.toString
                 val name = str.substring(str.lastIndexOf("/")+1, str.lastIndexOf("."))
-                database.precipitations += DataGridFactory.getPrecipGrid(hdrFile.toPath, file.toPath)
+                val tmp = DataGridFactory.getPrecipGrid(hdrFile.toPath, file.toPath)
+                database.precipitations += tmp
+                database.precipGrids += tmp.getDetail
             }
         }
     }
 
     def buildElevations(dataPath: Path, database: Database): Unit = {
-        var fileList = getListOfFiles(dataPath.toString + "elevations")
+        var fileList = List[File]()
+        dataPath.toString takeRight 1 match {
+            case "/" => { fileList = ScalaUtilities.getListOfFiles(dataPath.toString + "elevations") }
+            case _   => { fileList = ScalaUtilities.getListOfFiles(dataPath.toString + "/elevations") }
+        }
         for (file <- fileList) {
             val name = file.toString.substring(0, file.toString.length - 4)
             val hdrFile = Paths.get(name + ".hdr").toFile
             if (file.toString.endsWith(".flt") && hdrFile.exists()) {
                 val str = hdrFile.toString
                 val name = str.substring(str.lastIndexOf("/")+1, str.lastIndexOf("."))
-                database.elevations += DataGridFactory.getElevGrid(hdrFile.toPath, file.toPath)
+                val tmp = DataGridFactory.getElevGrid(hdrFile.toPath, file.toPath)
+                database.elevations += tmp
+                database.elevGrids += tmp.getDetail
             }
-        }
-    }
-
-    def getListOfFiles(dir: String):List[File] = {
-        val d = new File(dir)
-        if (d.exists && d.isDirectory) {
-            d.listFiles.filter(_.isFile).toList
-        } else {
-            List[File]()
         }
     }
 

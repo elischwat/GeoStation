@@ -18,8 +18,8 @@ object TestDriver_DataGrids {
         //Test TempGrid:
         println("Testing TempGrid:")
         println("=================")
-        val hdrPath1 = Paths.get("src/test/test_data/temperatures/sample_data.hdr")
-        val bilPath = Paths.get("src/test/test_data/temperatures/sample_data.bil")
+        val hdrPath1 = Paths.get("src/test/test_data/temperatures/temp_sample_data.hdr")
+        val bilPath = Paths.get("src/test/test_data/temperatures/temp_sample_data.bil")
         val testTempGrid = DataGridFactory.getTempGrid(hdrPath1, bilPath)
         val testPt = Point(42.0, -94.0)
         val testPt2 = Point(40.0, -92.0)
