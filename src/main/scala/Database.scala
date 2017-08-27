@@ -6,17 +6,14 @@ import Utilities.Point
 
 import scala.collection.mutable.Map
 
-/** DataAccessor.scala
-  * Interface object used to access data for the GeoStation class.
-  * Abstracts GeoStation and associated functionality from pertinent data
-  * structures.
+/** Database.scala
+  * Database object for GeoStation. Holds all DataGrid and TimeSeries objects.
+  * Accessed by DAO.
   *
-  * All
+  * Should be deprecated for superior (actual) Database.
   *
   * Created by elischwat on 7/19/17.
   */
-
-//Data
 class Database {
 
     //make data fields private

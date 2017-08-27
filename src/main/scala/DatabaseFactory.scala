@@ -4,14 +4,16 @@ import java.nio.file.{Path, Paths}
 import DataGrids.DataGridFactory
 import Utilities.ScalaUtilities
 
-/**
-  * Created by elischwat on 7/20/17.
+/** DatabaseFactory
+  * Implements the factory pattern to create Database object.
+  * Builds database from file structure that holds temperature, precipitation,
+  * and elevation data.
   */
 object DatabaseFactory {
 
     /** buildDataBase
       * Grabs files from the data path and adds all datasets to the DAO. Data
-      * is added to the proper map (temperatures, precipitations, elevations,
+      * is added to the proper list (temperatures, precipitations, elevations,
       * etc) based on the sub-directory within the dataPath.
       * @param dataPath - path to the data directory. this directory should
       *                 contain sub directories, one for each map data member of

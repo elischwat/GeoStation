@@ -9,15 +9,6 @@ import Utilities.ScalaUtilities
 import scala.io.Source
 import Utilities.Point
 
-//Deprecated:
-import java.nio.file.Files
-import java.nio.file.Paths  //gets Path from string (EX: "val dat = Paths.get("str.txt")
-import java.nio.ByteBuffer
-import scala.io.Source.fromFile
-import scala.io.BufferedSource
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
-
 // DataGridFactory
 // implements the factory pattern to crate DataGrids of different types
 // can handle files of different types
@@ -30,11 +21,8 @@ object DataGridFactory {
     //
     // creates __ with __
     def getPrecipGrid(hdrPath: Path, bilPath: Path): PrecipGrid = {
-
         //  hdrString = String containing entirety of file @ hdrPath
         val hdrString = Source.fromFile(hdrPath.toString).mkString //get entire hdr file into 1 string
-        //FILL VARS FROM .HDR FILE
-        //parsing commands specific to .hdr file
         //FUTURE: map data from text into flexible variable names for tempGrid
         val nLatRows = GetVariableFromText("NROWS", hdrString).toInt
         val nLonCols = GetVariableFromText("NCOLS", hdrString).toInt
@@ -49,7 +37,6 @@ object DataGridFactory {
         val dataStream = new FileInputStream(bilPath.toFile)
         val floatArray = ScalaUtilities.getFloatArrayFromDataStream(dataStream)
         val precipMatrix = ScalaUtilities.getMatrixFromArray(floatArray, nLatRows, nLonCols)
-
         //create and return generated TempGrid
         val toReturn = new PrecipGrid(ulp, brP, nLatRows, nLonCols, lonDim,
             latDim, noData, precipMatrix)

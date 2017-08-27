@@ -6,28 +6,28 @@ package DataGrids
 import java.io.FileInputStream
 import java.nio.file.Path
 import Utilities.{Point, ScalaUtilities}
-
 import scala.io.Source
 
-//Deprecated:
-
-// DataGridFactory
-// implements the factory pattern to crate DataGrids of different types
-// can handle files of different types
-// INITIALLY: requires parameter for type of DataGrid to create
-// LATER: sense automatically what type of DataGrid to create
+// TimeSeriesFactory
+// implements the factory pattern to crate TimeSeries of different types
+// Can handle files of different types (TODO)
 object TimeSeriesFactory {
 
     // getPrecipGrid
     // Params:
     //
     // creates __ with __
-    def getTimeSeries(dataPath: Path): PrecipGrid = {
+    def getTimeSeries(dataPath: Path): TimeSeries = {
         val fileList = ScalaUtilities.getListOfFiles(dataPath.toString)
         val sortedList = fileList.sorted
+
+        //create new TimeSeries
+        val toReturn = new TimeSeries()
+
+        //assumes files are in order, timewise, when sorted by name alphabetically
         for (file <- sortedList) {
             val extension = file.toString.takeRight(4)
-            if (extension == ".bil" || extension == ".flt" || 
+            //if (extension == ".bil" || extension == ".flt" || )
         }
     }
 
